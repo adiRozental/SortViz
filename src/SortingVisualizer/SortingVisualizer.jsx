@@ -128,9 +128,7 @@ export default class SortingVisualizer extends React.Component {
                 const bartyle = arrayBars[j].style;
                 bartyle.backgroundColor = PRIMARY_COLOR;
                 arrayBars[i].style.backgroundColor = PRIMARY_COLOR;
-            //    array[i].backgroundColor = PRIMARY_COLOR;
-            //     // Set state after each change
-            //     this.setState({ array});
+            
       
                 // Wait for a delay and log the difference
                await delay2(10); // Adjust delay time as needed
