@@ -59,3 +59,16 @@
 
 
 
+@media screen and (max-width: 960px) {
+    .array-bar{
+        width: 15px;
+        height: 25px;
+    }
+}
+
+@media screen and (max-width: 680px) {
+    .array-bar{
+        width: 7px;
+        height: 20px;
+    }
+}
