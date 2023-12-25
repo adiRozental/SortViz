@@ -58,46 +58,55 @@ export default class SortingVisualizer extends React.Component {
 
     }
 
-    quickSort() {
-        // We leave it as an exercise to the viewer of this code to implement this method.
-      }
+    quickSort = () => {
+        const { array } = this.state;
+      
+        const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+      
+        const sortWithDelay = async () => {
+
+          for (let i = 0; i < array.length; i++) {
+            for (let j = 0; j < i; j++) {
+              if (array[i] < array[j]) {
+                // Swap elements
+                const temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+
+                //visualize
+                const arrayBars = document.getElementsByClassName('array-bar');
+                const barOneStyle = arrayBars[i].style;
+                barOneStyle.backgroundColor = SECONDARY_COLOR;
+                arrayBars[j].style.backgroundColor = SECONDARY_COLOR;
+                // Wait for a delay and log the difference
+               await delay(10); // Adjust delay time as needed
+                const bartyle = arrayBars[j].style;
+                bartyle.backgroundColor = PRIMARY_COLOR;
+                arrayBars[i].style.backgroundColor = PRIMARY_COLOR;
+                // Wait for a delay and log the difference
+                this.setState({ array});
+               await delay(10); // Adjust delay time as needed
+
+              }
+            }
+          }
+        };
+        sortWithDelay();
+    };
     
+
+
+
       heapSort() {
         // We leave it as an exercise to the viewer of this code to implement this method.
       }
     
-    // //   bubbleSort()
-    //   const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
-    // const bubbleSort = async () =>  {
-    //     // We leave it as an exercise to the viewer of this code to implement this method.
-    //     const {array} = this.state;
-    //     for (let i = 0; i < array.length; i++) {
-    //         for (let j = 0; j < i; j++) {
-    //             if (array[i] < array[j]){
-    //                 const element = array[i];
-    //                 array[i]=array[j];
-    //                 array[j] = element;
-    //                 this.setState({array});
-                    
-
-    //                 this.setState({ array });
-
-    //                 // Add a delay here
-    //                 await delay(100); // Adjust the delay time (in milliseconds) as needed
-            
-
-    //             }                
-                
-    //         }
-    //     }
-    //     this.setState({array});
-    //   }
+   
 
     bubbleSort = () => {
         const { array } = this.state;
       
-        const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+        const delay2 = (ms) => new Promise(resolve => setTimeout(resolve, ms));
       
         const sortWithDelay = async () => {
           for (let i = 0; i < array.length; i++) {
@@ -115,7 +124,7 @@ export default class SortingVisualizer extends React.Component {
                 this.setState({ array});
       
                 // Wait for a delay and log the difference
-               await delay(10); // Adjust delay time as needed
+               await delay2(10); // Adjust delay time as needed
                 const bartyle = arrayBars[j].style;
                 bartyle.backgroundColor = PRIMARY_COLOR;
                 arrayBars[i].style.backgroundColor = PRIMARY_COLOR;
@@ -124,7 +133,7 @@ export default class SortingVisualizer extends React.Component {
             //     this.setState({ array});
       
                 // Wait for a delay and log the difference
-               await delay(10); // Adjust delay time as needed
+               await delay2(10); // Adjust delay time as needed
 
               }
             }
