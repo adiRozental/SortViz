@@ -58,42 +58,54 @@ export default class SortingVisualizer extends React.Component {
 
     }
 
-    quickSort = () => {
+    quickSort = async () => {
         const { array } = this.state;
-      
+    
         const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-      
-        const sortWithDelay = async () => {
-
-          for (let i = 0; i < array.length; i++) {
-            for (let j = 0; j < i; j++) {
-              if (array[i] < array[j]) {
-                // Swap elements
-                const temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
-
-                //visualize
-                const arrayBars = document.getElementsByClassName('array-bar');
-                const barOneStyle = arrayBars[i].style;
-                barOneStyle.backgroundColor = SECONDARY_COLOR;
-                arrayBars[j].style.backgroundColor = SECONDARY_COLOR;
-                // Wait for a delay and log the difference
-               await delay(10); // Adjust delay time as needed
-                const bartyle = arrayBars[j].style;
-                bartyle.backgroundColor = PRIMARY_COLOR;
-                arrayBars[i].style.backgroundColor = PRIMARY_COLOR;
-                // Wait for a delay and log the difference
-                this.setState({ array});
-               await delay(10); // Adjust delay time as needed
-
-              }
+    
+        const sortArray = async (arr, leftIndex, rightIndex) => {
+            if (leftIndex >= rightIndex) return;
+    
+            let i = leftIndex;
+            let j = rightIndex;
+            let pivot = arr[Math.floor((leftIndex + rightIndex) / 2)];
+    
+            while (i <= j) {
+                while (arr[i] < pivot) {
+                    i++;
+                }
+    
+                while (arr[j] > pivot) {
+                    j--;
+                }
+    
+                if (i <= j) {
+                    const temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+    
+                    // Update state after each swap
+                    this.setState({ array: [...arr] });
+    
+                    // Wait for a delay to visualize the sorting process
+                    await delay(50);
+    
+                    i++;
+                    j--;
+                }
             }
-          }
+    
+            await Promise.all([
+                sortArray(arr, leftIndex, j),
+                sortArray(arr, i, rightIndex)
+            ]);
         };
-        sortWithDelay();
+    
+        await sortArray([...array], 0, array.length - 1);
     };
     
+        
+       
 
 
 
