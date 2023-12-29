@@ -109,7 +109,7 @@ export default class SortingVisualizer extends React.Component {
 
 
 
-      heapSort() {
+    insertionSort() {
         // We leave it as an exercise to the viewer of this code to implement this method.
       }
     
@@ -162,7 +162,7 @@ export default class SortingVisualizer extends React.Component {
                 </button>
                 <button className="btn" onClick={() => this.mergeSort()}>Merge Sort</button>
                 <button className="btn" onClick={() => this.quickSort()}>Quick Sort</button>
-                <button className="btn" onClick={() => this.heapSort()}>Heap Sort</button>
+                <button className="btn" onClick={() => this.insertionSort()}>Insertion Sort</button>
                 <button className="btn" onClick={() => this.bubbleSort()}>Bubble Sort</button>
                 <div className="array-container"> 
                     {array.map((value, idx) => (
