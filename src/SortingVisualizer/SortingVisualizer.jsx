@@ -111,7 +111,30 @@ export default class SortingVisualizer extends React.Component {
 
     insertionSort() {
         // We leave it as an exercise to the viewer of this code to implement this method.
-      }
+        const { array } = this.state;
+        const sortWithDelay = async () => {
+            for (let i = 1; i < array.length; i++) {
+                let current = array[i];
+                let j = i - 1;
+
+                while (j >= 0 && array[j] > current) {
+                    array[j + 1] = array[j];
+                    j--;
+                    await delay(10); // Visualization delay
+
+                    // Visualization logic (update UI or console.log the array)
+                    this.setState({ array: [...array] });
+                }
+
+                array[j + 1] = current;
+            }
+
+            this.setState({array});
+        }  
+        sortWithDelay();
+    }
+
+
     
    
 
@@ -188,3 +211,6 @@ function randomIntCast(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
+    function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
