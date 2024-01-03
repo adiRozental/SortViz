@@ -1,11 +1,10 @@
 import React from 'react';
 import {getMergeSortAnimations} from './Mergesort.js';
 import './SortingVisualizer.css';
+import { useState } from 'react';
 
-const ANIMATION_SPEED_MS = 10;
-
-// Change this value for the number of bars (value) in the array.
-const NUMBER_OF_ARRAY_BARS = 310;
+let ANIMATION_SPEED_MS = 10;
+let ARRAY_BARS = 40;
 
 // This is the main color of the array bars.
 const PRIMARY_COLOR = '#f597ae';
@@ -27,7 +26,7 @@ export default class SortingVisualizer extends React.Component {
 
     resetArray() {
         const array = [];
-        for(let i =0; i< 40; i++){
+        for(let i =0; i< ARRAY_BARS; i++){
             array.push(randomIntCast(5, 500));
         }
         this.setState({array});
@@ -100,7 +99,7 @@ export default class SortingVisualizer extends React.Component {
                 sortArray(arr, i, rightIndex)
             ]);
         };
-    
+
         await sortArray([...array], 0, array.length - 1);
     };
     
@@ -134,7 +133,10 @@ export default class SortingVisualizer extends React.Component {
         sortWithDelay();
     }
 
-
+    changeBar = (val) => {
+        ARRAY_BARS = val*10;
+        this.resetArray();
+    }
     
    
 
@@ -173,6 +175,7 @@ export default class SortingVisualizer extends React.Component {
           }
         };
         sortWithDelay();
+        ARRAY_BARS = 50;
     };
 
     render() {
@@ -187,6 +190,7 @@ export default class SortingVisualizer extends React.Component {
                 <button className="btn" onClick={() => this.quickSort()}>Quick Sort</button>
                 <button className="btn" onClick={() => this.insertionSort()}>Insertion Sort</button>
                 <button className="btn" onClick={() => this.bubbleSort()}>Bubble Sort</button>
+                <input id="a_speed" type="range" min={2} max={6} onChange={(e)=> this.changeBar(e.target.value)} ></input>
                 <div className="array-container"> 
                     {array.map((value, idx) => (
                         <div className="array-bar"
