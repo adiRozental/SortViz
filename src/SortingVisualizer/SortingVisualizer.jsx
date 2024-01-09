@@ -2,6 +2,7 @@ import React from 'react';
 import {getMergeSortAnimations} from './Mergesort.js';
 import './SortingVisualizer.css';
 import { useState } from 'react';
+import { QuickSort } from './QuickSort.js';
 
 let ANIMATION_SPEED_MS = 10;
 let ARRAY_BARS = 40;
@@ -57,51 +58,22 @@ export default class SortingVisualizer extends React.Component {
 
     }
 
+
+
     quickSort = async () => {
         const { array } = this.state;
     
         const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     
-        const sortArray = async (arr, leftIndex, rightIndex) => {
-            if (leftIndex >= rightIndex) return;
-    
-            let i = leftIndex;
-            let j = rightIndex;
-            let pivot = arr[Math.floor((leftIndex + rightIndex) / 2)];
-    
-            while (i <= j) {
-                while (arr[i] < pivot) {
-                    i++;
-                }
-    
-                while (arr[j] > pivot) {
-                    j--;
-                }
-    
-                if (i <= j) {
-                    const temp = arr[i];
-                    arr[i] = arr[j];
-                    arr[j] = temp;
-    
-                    // Update state after each swap
-                    this.setState({ array: [...arr] });
-    
-                    // Wait for a delay to visualize the sorting process
-                    await delay(50);
-    
-                    i++;
-                    j--;
-                }
-            }
-    
-            await Promise.all([
-                sortArray(arr, leftIndex, j),
-                sortArray(arr, i, rightIndex)
-            ]);
+        // Function to update the state
+        const updateArrayState = newArray => {
+            this.setState({ array: newArray });
         };
-
-        await sortArray([...array], 0, array.length - 1);
+    
+        // Calling QuickSort and passing the necessary arguments
+        await QuickSort([...array], updateArrayState, delay);
     };
+
     
         
        
@@ -109,7 +81,6 @@ export default class SortingVisualizer extends React.Component {
 
 
     insertionSort() {
-        // We leave it as an exercise to the viewer of this code to implement this method.
         const { array } = this.state;
         const sortWithDelay = async () => {
             for (let i = 1; i < array.length; i++) {
@@ -178,6 +149,7 @@ export default class SortingVisualizer extends React.Component {
         ARRAY_BARS = 50;
     };
 
+
     render() {
         const {array} = this.state;
 
@@ -190,6 +162,7 @@ export default class SortingVisualizer extends React.Component {
                 <button className="btn" onClick={() => this.quickSort()}>Quick Sort</button>
                 <button className="btn" onClick={() => this.insertionSort()}>Insertion Sort</button>
                 <button className="btn" onClick={() => this.bubbleSort()}>Bubble Sort</button>
+                <p>Length:</p>
                 <input id="a_speed" type="range" min={2} max={6} onChange={(e)=> this.changeBar(e.target.value)} ></input>
                 <div className="array-container"> 
                     {array.map((value, idx) => (
@@ -204,11 +177,13 @@ export default class SortingVisualizer extends React.Component {
                         </div>
                     ))}
                 </div>
+                
             </div>
             
         )
     }
 }
+
 
 function randomIntCast(min, max) {
     // min and max included
